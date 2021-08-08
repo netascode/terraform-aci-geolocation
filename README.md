@@ -1,22 +1,45 @@
 <!-- BEGIN_TF_DOCS -->
-[![Tests](https://github.com/netascode/terraform-aci-scaffolding/actions/workflows/test.yml/badge.svg)](https://github.com/netascode/terraform-aci-scaffolding/actions/workflows/test.yml)
+[![Tests](https://github.com/netascode/terraform-aci-geolocation/actions/workflows/test.yml/badge.svg)](https://github.com/netascode/terraform-aci-geolocation/actions/workflows/test.yml)
 
-# Terraform ACI Scaffolding Module
+# Terraform ACI Geolocation Module
 
-Description
+ACI Geolocation
 
 Location in GUI:
-`Tenants` » `XXX`
+`Fabric` » `Fabric Policies` » `Policies` » `Geolocation`
 
 ## Examples
 
 ```hcl
-module "aci_scaffolding" {
-  source = "netascode/scaffolding/aci"
+module "aci_geolocation" {
+  source = "netascode/geolocation/aci"
 
-  name        = "ABC"
-  alias       = "ABC-ALIAS"
-  description = "My Description"
+  name        = "SITE1"
+  description = "Site Description"
+  buildings = [{
+    name        = "BUILDING1"
+    description = "Building Description"
+    floors = [{
+      name        = "FLOOR1"
+      description = "Floor Description"
+      rooms = [{
+        name        = "ROOM1"
+        description = "Room Description"
+        rows = [{
+          name        = "ROW1"
+          description = "Row Description"
+          racks = [{
+            name        = "RACK1"
+            description = "Rack Description"
+            nodes = [{
+              id  = 101
+              pod = 1
+            }]
+          }]
+        }]
+      }]
+    }]
+  }]
 }
 
 ```
@@ -38,20 +61,26 @@ module "aci_scaffolding" {
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_name"></a> [name](#input\_name) | Tenant name. | `string` | n/a | yes |
-| <a name="input_alias"></a> [alias](#input\_alias) | Tenant alias. | `string` | `""` | no |
-| <a name="input_description"></a> [description](#input\_description) | Tenant description. | `string` | `""` | no |
+| <a name="input_name"></a> [name](#input\_name) | Site name. | `string` | n/a | yes |
+| <a name="input_description"></a> [description](#input\_description) | Site description. | `string` | `""` | no |
+| <a name="input_buildings"></a> [buildings](#input\_buildings) | List of buildings. Allowed values `id`: 1-4000. Allowed values `pod`: 1-255. Default value `pod`: 1. | <pre>list(object({<br>    name        = string<br>    description = optional(string)<br>    floors = optional(list(object({<br>      name        = string<br>      description = optional(string)<br>      rooms = optional(list(object({<br>        name        = string<br>        description = optional(string)<br>        rows = optional(list(object({<br>          name        = string<br>          description = optional(string)<br>          racks = optional(list(object({<br>            name        = string<br>            description = optional(string)<br>            nodes = optional(list(object({<br>              id  = number<br>              pod = optional(number)<br>            })))<br>          })))<br>        })))<br>      })))<br>    })))<br>  }))</pre> | `[]` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| <a name="output_dn"></a> [dn](#output\_dn) | Distinguished name of `fvTenant` object. |
-| <a name="output_name"></a> [name](#output\_name) | Tenant name. |
+| <a name="output_dn"></a> [dn](#output\_dn) | Distinguished name of `geoSite` object. |
+| <a name="output_name"></a> [name](#output\_name) | Site name. |
 
 ## Resources
 
 | Name | Type |
 |------|------|
-| [aci_rest.fvTenant](https://registry.terraform.io/providers/netascode/aci/latest/docs/resources/rest) | resource |
+| [aci_rest.geoBuilding](https://registry.terraform.io/providers/netascode/aci/latest/docs/resources/rest) | resource |
+| [aci_rest.geoFloor](https://registry.terraform.io/providers/netascode/aci/latest/docs/resources/rest) | resource |
+| [aci_rest.geoRack](https://registry.terraform.io/providers/netascode/aci/latest/docs/resources/rest) | resource |
+| [aci_rest.geoRoom](https://registry.terraform.io/providers/netascode/aci/latest/docs/resources/rest) | resource |
+| [aci_rest.geoRow](https://registry.terraform.io/providers/netascode/aci/latest/docs/resources/rest) | resource |
+| [aci_rest.geoRsNodeLocation](https://registry.terraform.io/providers/netascode/aci/latest/docs/resources/rest) | resource |
+| [aci_rest.geoSite](https://registry.terraform.io/providers/netascode/aci/latest/docs/resources/rest) | resource |
 <!-- END_TF_DOCS -->
