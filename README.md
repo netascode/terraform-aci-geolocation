@@ -12,7 +12,8 @@ Location in GUI:
 
 ```hcl
 module "aci_geolocation" {
-  source = "netascode/geolocation/aci"
+  source  = "netascode/geolocation/aci"
+  version = ">= 0.0.2"
 
   name        = "SITE1"
   description = "Site Description"
@@ -32,8 +33,8 @@ module "aci_geolocation" {
             name        = "RACK1"
             description = "Rack Description"
             nodes = [{
-              id  = 101
-              pod = 1
+              node_id = 201
+              pod_id  = 2
             }]
           }]
         }]
@@ -63,7 +64,7 @@ module "aci_geolocation" {
 |------|-------------|------|---------|:--------:|
 | <a name="input_name"></a> [name](#input\_name) | Site name. | `string` | n/a | yes |
 | <a name="input_description"></a> [description](#input\_description) | Site description. | `string` | `""` | no |
-| <a name="input_buildings"></a> [buildings](#input\_buildings) | List of buildings. Allowed values `id`: 1-4000. Allowed values `pod`: 1-255. Default value `pod`: 1. | <pre>list(object({<br>    name        = string<br>    description = optional(string)<br>    floors = optional(list(object({<br>      name        = string<br>      description = optional(string)<br>      rooms = optional(list(object({<br>        name        = string<br>        description = optional(string)<br>        rows = optional(list(object({<br>          name        = string<br>          description = optional(string)<br>          racks = optional(list(object({<br>            name        = string<br>            description = optional(string)<br>            nodes = optional(list(object({<br>              id  = number<br>              pod = optional(number)<br>            })))<br>          })))<br>        })))<br>      })))<br>    })))<br>  }))</pre> | `[]` | no |
+| <a name="input_buildings"></a> [buildings](#input\_buildings) | List of buildings. Allowed values `node_id`: 1-4000. Allowed values `pod_id`: 1-255. Default value `pod_id`: 1. | <pre>list(object({<br>    name        = string<br>    description = optional(string)<br>    floors = optional(list(object({<br>      name        = string<br>      description = optional(string)<br>      rooms = optional(list(object({<br>        name        = string<br>        description = optional(string)<br>        rows = optional(list(object({<br>          name        = string<br>          description = optional(string)<br>          racks = optional(list(object({<br>            name        = string<br>            description = optional(string)<br>            nodes = optional(list(object({<br>              node_id = number<br>              pod_id  = optional(number)<br>            })))<br>          })))<br>        })))<br>      })))<br>    })))<br>  }))</pre> | `[]` | no |
 
 ## Outputs
 

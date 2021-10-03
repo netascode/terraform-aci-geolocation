@@ -32,8 +32,8 @@ module "main" {
             name        = "RACK1"
             description = "Rack Description"
             nodes = [{
-              id  = 101
-              pod = 1
+              node_id = 201
+              pod_id  = 2
             }]
           }]
         }]
@@ -175,7 +175,7 @@ resource "test_assertions" "geoRack" {
 }
 
 data "aci_rest" "geoRsNodeLocation" {
-  dn = "${data.aci_rest.geoRack.id}/rsnodeLocation-[topology/pod-1/node-101]"
+  dn = "${data.aci_rest.geoRack.id}/rsnodeLocation-[topology/pod-2/node-201]"
 
   depends_on = [module.main]
 }
@@ -186,6 +186,6 @@ resource "test_assertions" "geoRsNodeLocation" {
   equal "tDn" {
     description = "tDn"
     got         = data.aci_rest.geoRsNodeLocation.content.tDn
-    want        = "topology/pod-1/node-101"
+    want        = "topology/pod-2/node-201"
   }
 }

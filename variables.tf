@@ -20,7 +20,7 @@ variable "description" {
 }
 
 variable "buildings" {
-  description = "List of buildings. Allowed values `id`: 1-4000. Allowed values `pod`: 1-255. Default value `pod`: 1."
+  description = "List of buildings. Allowed values `node_id`: 1-4000. Allowed values `pod_id`: 1-255. Default value `pod_id`: 1."
   type = list(object({
     name        = string
     description = optional(string)
@@ -37,8 +37,8 @@ variable "buildings" {
             name        = string
             description = optional(string)
             nodes = optional(list(object({
-              id  = number
-              pod = optional(number)
+              node_id = number
+              pod_id  = optional(number)
             })))
           })))
         })))
@@ -119,15 +119,15 @@ variable "buildings" {
 
   validation {
     condition = alltrue(flatten([
-      for b in var.buildings : [for f in coalesce(b.floors, []) : [for r in coalesce(f.rooms, []) : [for row in coalesce(r.rows, []) : [for rack in coalesce(row.racks, []) : [for node in coalesce(rack.nodes, []) : node.id >= 1 && node.id <= 4000]]]]]
+      for b in var.buildings : [for f in coalesce(b.floors, []) : [for r in coalesce(f.rooms, []) : [for row in coalesce(r.rows, []) : [for rack in coalesce(row.racks, []) : [for node in coalesce(rack.nodes, []) : node.node_id >= 1 && node.node_id <= 4000]]]]]
     ]))
-    error_message = "Allowed values `id`: 1-4000."
+    error_message = "Allowed values `node_id`: 1-4000."
   }
 
   validation {
     condition = alltrue(flatten([
-      for b in var.buildings : [for f in coalesce(b.floors, []) : [for r in coalesce(f.rooms, []) : [for row in coalesce(r.rows, []) : [for rack in coalesce(row.racks, []) : [for node in coalesce(rack.nodes, []) : node.pod == null || try(node.pod >= 1 && node.pod <= 255)]]]]]
+      for b in var.buildings : [for f in coalesce(b.floors, []) : [for r in coalesce(f.rooms, []) : [for row in coalesce(r.rows, []) : [for rack in coalesce(row.racks, []) : [for node in coalesce(rack.nodes, []) : node.pod_id == null || try(node.pod_id >= 1 && node.pod_id <= 255)]]]]]
     ]))
-    error_message = "Allowed values `pod`: 1-255."
+    error_message = "Allowed values `pod_id`: 1-255."
   }
 }

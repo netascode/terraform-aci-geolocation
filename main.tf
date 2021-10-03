@@ -66,10 +66,10 @@ locals {
           for row in coalesce(room.rows, []) : [
             for rack in coalesce(row.racks, []) : [
               for node in coalesce(rack.nodes, []) : {
-                key = "${building.name}/${floor.name}/${room.name}/${row.name}/${rack.name}/${node.id}"
+                key = "${building.name}/${floor.name}/${room.name}/${row.name}/${rack.name}/${node.node_id}"
                 value = {
-                  dn  = "uni/fabric/site-${var.name}/building-${building.name}/floor-${floor.name}/room-${room.name}/row-${row.name}/rack-${rack.name}/rsnodeLocation-[topology/pod-${node.pod != null ? node.pod : 1}/node-${node.id}]"
-                  tDn = "topology/pod-${node.pod != null ? node.pod : 1}/node-${node.id}"
+                  dn  = "uni/fabric/site-${var.name}/building-${building.name}/floor-${floor.name}/room-${room.name}/row-${row.name}/rack-${rack.name}/rsnodeLocation-[topology/pod-${node.pod_id != null ? node.pod_id : 1}/node-${node.node_id}]"
+                  tDn = "topology/pod-${node.pod_id != null ? node.pod_id : 1}/node-${node.node_id}"
                 }
               }
             ]

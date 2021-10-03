@@ -13,7 +13,8 @@ Note that this example will create resources. Resources can be destroyed with `t
 
 ```hcl
 module "aci_geolocation" {
-  source = "netascode/geolocation/aci"
+  source  = "netascode/geolocation/aci"
+  version = ">= 0.0.2"
 
   name        = "SITE1"
   description = "Site Description"
@@ -33,8 +34,8 @@ module "aci_geolocation" {
             name        = "RACK1"
             description = "Rack Description"
             nodes = [{
-              id  = 101
-              pod = 1
+              node_id = 201
+              pod_id  = 2
             }]
           }]
         }]
