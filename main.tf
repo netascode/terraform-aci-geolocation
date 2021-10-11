@@ -91,7 +91,7 @@ resource "aci_rest" "geoSite" {
 
 resource "aci_rest" "geoBuilding" {
   for_each   = { for building in var.buildings : building.name => building }
-  dn         = "${aci_rest.geoSite.id}/building-${each.value.name}"
+  dn         = "${aci_rest.geoSite.dn}/building-${each.value.name}"
   class_name = "geoBuilding"
   content = {
     name  = each.value.name

@@ -1,3 +1,7 @@
+## 0.0.3
+
+- Update implicit resource dependencies
+
 ## 0.0.2
 
 - BREAKING CHANGE: rename id variable to node_id
