@@ -80,7 +80,7 @@ locals {
   ])
 }
 
-resource "aci_rest" "geoSite" {
+resource "aci_rest_managed" "geoSite" {
   dn         = "uni/fabric/site-${var.name}"
   class_name = "geoSite"
   content = {
@@ -89,9 +89,9 @@ resource "aci_rest" "geoSite" {
   }
 }
 
-resource "aci_rest" "geoBuilding" {
+resource "aci_rest_managed" "geoBuilding" {
   for_each   = { for building in var.buildings : building.name => building }
-  dn         = "${aci_rest.geoSite.dn}/building-${each.value.name}"
+  dn         = "${aci_rest_managed.geoSite.dn}/building-${each.value.name}"
   class_name = "geoBuilding"
   content = {
     name  = each.value.name
@@ -99,7 +99,7 @@ resource "aci_rest" "geoBuilding" {
   }
 }
 
-resource "aci_rest" "geoFloor" {
+resource "aci_rest_managed" "geoFloor" {
   for_each   = { for floor in local.floors : floor.key => floor.value }
   dn         = each.value.dn
   class_name = "geoFloor"
@@ -108,11 +108,11 @@ resource "aci_rest" "geoFloor" {
     descr = each.value.description
   }
   depends_on = [
-    aci_rest.geoBuilding
+    aci_rest_managed.geoBuilding
   ]
 }
 
-resource "aci_rest" "geoRoom" {
+resource "aci_rest_managed" "geoRoom" {
   for_each   = { for room in local.rooms : room.key => room.value }
   dn         = each.value.dn
   class_name = "geoRoom"
@@ -121,11 +121,11 @@ resource "aci_rest" "geoRoom" {
     descr = each.value.description
   }
   depends_on = [
-    aci_rest.geoFloor
+    aci_rest_managed.geoFloor
   ]
 }
 
-resource "aci_rest" "geoRow" {
+resource "aci_rest_managed" "geoRow" {
   for_each   = { for row in local.rows : row.key => row.value }
   dn         = each.value.dn
   class_name = "geoRow"
@@ -134,11 +134,11 @@ resource "aci_rest" "geoRow" {
     descr = each.value.description
   }
   depends_on = [
-    aci_rest.geoRoom
+    aci_rest_managed.geoRoom
   ]
 }
 
-resource "aci_rest" "geoRack" {
+resource "aci_rest_managed" "geoRack" {
   for_each   = { for rack in local.racks : rack.key => rack.value }
   dn         = each.value.dn
   class_name = "geoRack"
@@ -147,11 +147,11 @@ resource "aci_rest" "geoRack" {
     descr = each.value.description
   }
   depends_on = [
-    aci_rest.geoRow
+    aci_rest_managed.geoRow
   ]
 }
 
-resource "aci_rest" "geoRsNodeLocation" {
+resource "aci_rest_managed" "geoRsNodeLocation" {
   for_each   = { for node in local.nodes : node.key => node.value }
   dn         = each.value.dn
   class_name = "geoRsNodeLocation"
@@ -159,6 +159,6 @@ resource "aci_rest" "geoRsNodeLocation" {
     tDn = each.value.tDn
   }
   depends_on = [
-    aci_rest.geoRack
+    aci_rest_managed.geoRack
   ]
 }

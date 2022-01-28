@@ -5,8 +5,8 @@ terraform {
     }
 
     aci = {
-      source  = "netascode/aci"
-      version = ">=0.2.0"
+      source  = "CiscoDevNet/aci"
+      version = ">=2.0.0"
     }
   }
 }
@@ -42,7 +42,7 @@ module "main" {
   }]
 }
 
-data "aci_rest" "geoSite" {
+data "aci_rest_managed" "geoSite" {
   dn = "uni/fabric/site-${module.main.name}"
 
   depends_on = [module.main]
@@ -53,19 +53,19 @@ resource "test_assertions" "geoSite" {
 
   equal "name" {
     description = "name"
-    got         = data.aci_rest.geoSite.content.name
+    got         = data.aci_rest_managed.geoSite.content.name
     want        = module.main.name
   }
 
   equal "descr" {
     description = "descr"
-    got         = data.aci_rest.geoSite.content.descr
+    got         = data.aci_rest_managed.geoSite.content.descr
     want        = "Site Description"
   }
 }
 
-data "aci_rest" "geoBuilding" {
-  dn = "${data.aci_rest.geoSite.id}/building-BUILDING1"
+data "aci_rest_managed" "geoBuilding" {
+  dn = "${data.aci_rest_managed.geoSite.id}/building-BUILDING1"
 
   depends_on = [module.main]
 }
@@ -75,19 +75,19 @@ resource "test_assertions" "geoBuilding" {
 
   equal "name" {
     description = "name"
-    got         = data.aci_rest.geoBuilding.content.name
+    got         = data.aci_rest_managed.geoBuilding.content.name
     want        = "BUILDING1"
   }
 
   equal "descr" {
     description = "descr"
-    got         = data.aci_rest.geoBuilding.content.descr
+    got         = data.aci_rest_managed.geoBuilding.content.descr
     want        = "Building Description"
   }
 }
 
-data "aci_rest" "geoFloor" {
-  dn = "${data.aci_rest.geoBuilding.id}/floor-FLOOR1"
+data "aci_rest_managed" "geoFloor" {
+  dn = "${data.aci_rest_managed.geoBuilding.id}/floor-FLOOR1"
 
   depends_on = [module.main]
 }
@@ -97,19 +97,19 @@ resource "test_assertions" "geoFloor" {
 
   equal "name" {
     description = "name"
-    got         = data.aci_rest.geoFloor.content.name
+    got         = data.aci_rest_managed.geoFloor.content.name
     want        = "FLOOR1"
   }
 
   equal "descr" {
     description = "descr"
-    got         = data.aci_rest.geoFloor.content.descr
+    got         = data.aci_rest_managed.geoFloor.content.descr
     want        = "Floor Description"
   }
 }
 
-data "aci_rest" "geoRoom" {
-  dn = "${data.aci_rest.geoFloor.id}/room-ROOM1"
+data "aci_rest_managed" "geoRoom" {
+  dn = "${data.aci_rest_managed.geoFloor.id}/room-ROOM1"
 
   depends_on = [module.main]
 }
@@ -119,19 +119,19 @@ resource "test_assertions" "geoRoom" {
 
   equal "name" {
     description = "name"
-    got         = data.aci_rest.geoRoom.content.name
+    got         = data.aci_rest_managed.geoRoom.content.name
     want        = "ROOM1"
   }
 
   equal "descr" {
     description = "descr"
-    got         = data.aci_rest.geoRoom.content.descr
+    got         = data.aci_rest_managed.geoRoom.content.descr
     want        = "Room Description"
   }
 }
 
-data "aci_rest" "geoRow" {
-  dn = "${data.aci_rest.geoRoom.id}/row-ROW1"
+data "aci_rest_managed" "geoRow" {
+  dn = "${data.aci_rest_managed.geoRoom.id}/row-ROW1"
 
   depends_on = [module.main]
 }
@@ -141,19 +141,19 @@ resource "test_assertions" "geoRow" {
 
   equal "name" {
     description = "name"
-    got         = data.aci_rest.geoRow.content.name
+    got         = data.aci_rest_managed.geoRow.content.name
     want        = "ROW1"
   }
 
   equal "descr" {
     description = "descr"
-    got         = data.aci_rest.geoRow.content.descr
+    got         = data.aci_rest_managed.geoRow.content.descr
     want        = "Row Description"
   }
 }
 
-data "aci_rest" "geoRack" {
-  dn = "${data.aci_rest.geoRow.id}/rack-RACK1"
+data "aci_rest_managed" "geoRack" {
+  dn = "${data.aci_rest_managed.geoRow.id}/rack-RACK1"
 
   depends_on = [module.main]
 }
@@ -163,19 +163,19 @@ resource "test_assertions" "geoRack" {
 
   equal "name" {
     description = "name"
-    got         = data.aci_rest.geoRack.content.name
+    got         = data.aci_rest_managed.geoRack.content.name
     want        = "RACK1"
   }
 
   equal "descr" {
     description = "descr"
-    got         = data.aci_rest.geoRack.content.descr
+    got         = data.aci_rest_managed.geoRack.content.descr
     want        = "Rack Description"
   }
 }
 
-data "aci_rest" "geoRsNodeLocation" {
-  dn = "${data.aci_rest.geoRack.id}/rsnodeLocation-[topology/pod-2/node-201]"
+data "aci_rest_managed" "geoRsNodeLocation" {
+  dn = "${data.aci_rest_managed.geoRack.id}/rsnodeLocation-[topology/pod-2/node-201]"
 
   depends_on = [module.main]
 }
@@ -185,7 +185,7 @@ resource "test_assertions" "geoRsNodeLocation" {
 
   equal "tDn" {
     description = "tDn"
-    got         = data.aci_rest.geoRsNodeLocation.content.tDn
+    got         = data.aci_rest_managed.geoRsNodeLocation.content.tDn
     want        = "topology/pod-2/node-201"
   }
 }
