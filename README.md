@@ -13,7 +13,7 @@ Location in GUI:
 ```hcl
 module "aci_geolocation" {
   source  = "netascode/geolocation/aci"
-  version = ">= 0.1.0"
+  version = ">= 0.2.0"
 
   name        = "SITE1"
   description = "Site Description"
@@ -48,7 +48,7 @@ module "aci_geolocation" {
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0 |
 | <a name="requirement_aci"></a> [aci](#requirement\_aci) | >= 2.0.0 |
 
 ## Providers
@@ -63,7 +63,7 @@ module "aci_geolocation" {
 |------|-------------|------|---------|:--------:|
 | <a name="input_name"></a> [name](#input\_name) | Site name. | `string` | n/a | yes |
 | <a name="input_description"></a> [description](#input\_description) | Site description. | `string` | `""` | no |
-| <a name="input_buildings"></a> [buildings](#input\_buildings) | List of buildings. Allowed values `node_id`: 1-4000. Allowed values `pod_id`: 1-255. Default value `pod_id`: 1. | <pre>list(object({<br>    name        = string<br>    description = optional(string)<br>    floors = optional(list(object({<br>      name        = string<br>      description = optional(string)<br>      rooms = optional(list(object({<br>        name        = string<br>        description = optional(string)<br>        rows = optional(list(object({<br>          name        = string<br>          description = optional(string)<br>          racks = optional(list(object({<br>            name        = string<br>            description = optional(string)<br>            nodes = optional(list(object({<br>              node_id = number<br>              pod_id  = optional(number)<br>            })))<br>          })))<br>        })))<br>      })))<br>    })))<br>  }))</pre> | `[]` | no |
+| <a name="input_buildings"></a> [buildings](#input\_buildings) | List of buildings. Allowed values `node_id`: 1-4000. Allowed values `pod_id`: 1-255. Default value `pod_id`: 1. | <pre>list(object({<br>    name        = string<br>    description = optional(string, "")<br>    floors = optional(list(object({<br>      name        = string<br>      description = optional(string, "")<br>      rooms = optional(list(object({<br>        name        = string<br>        description = optional(string, "")<br>        rows = optional(list(object({<br>          name        = string<br>          description = optional(string, "")<br>          racks = optional(list(object({<br>            name        = string<br>            description = optional(string, "")<br>            nodes = optional(list(object({<br>              node_id = number<br>              pod_id  = optional(number, 1)<br>            })), [])<br>          })), [])<br>        })), [])<br>      })), [])<br>    })), [])<br>  }))</pre> | `[]` | no |
 
 ## Outputs
 

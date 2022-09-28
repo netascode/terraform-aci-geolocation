@@ -6,7 +6,7 @@ locals {
         value = {
           dn          = "uni/fabric/site-${var.name}/building-${building.name}/floor-${floor.name}"
           name        = floor.name
-          description = floor.description != null ? floor.description : ""
+          description = floor.description
         }
       }
     ]
@@ -19,7 +19,7 @@ locals {
           value = {
             dn          = "uni/fabric/site-${var.name}/building-${building.name}/floor-${floor.name}/room-${room.name}"
             name        = room.name
-            description = room.description != null ? room.description : ""
+            description = room.description
           }
         }
       ]
@@ -34,7 +34,7 @@ locals {
             value = {
               dn          = "uni/fabric/site-${var.name}/building-${building.name}/floor-${floor.name}/room-${room.name}/row-${row.name}"
               name        = row.name
-              description = row.description != null ? row.description : ""
+              description = row.description
             }
           }
         ]
@@ -51,7 +51,7 @@ locals {
               value = {
                 dn          = "uni/fabric/site-${var.name}/building-${building.name}/floor-${floor.name}/room-${room.name}/row-${row.name}/rack-${rack.name}"
                 name        = rack.name
-                description = rack.description != null ? rack.description : ""
+                description = rack.description
               }
             }
           ]
@@ -68,8 +68,8 @@ locals {
               for node in coalesce(rack.nodes, []) : {
                 key = "${building.name}/${floor.name}/${room.name}/${row.name}/${rack.name}/${node.node_id}"
                 value = {
-                  dn  = "uni/fabric/site-${var.name}/building-${building.name}/floor-${floor.name}/room-${room.name}/row-${row.name}/rack-${rack.name}/rsnodeLocation-[topology/pod-${node.pod_id != null ? node.pod_id : 1}/node-${node.node_id}]"
-                  tDn = "topology/pod-${node.pod_id != null ? node.pod_id : 1}/node-${node.node_id}"
+                  dn  = "uni/fabric/site-${var.name}/building-${building.name}/floor-${floor.name}/room-${room.name}/row-${row.name}/rack-${rack.name}/rsnodeLocation-[topology/pod-${node.pod_id}/node-${node.node_id}]"
+                  tDn = "topology/pod-${node.pod_id}/node-${node.node_id}"
                 }
               }
             ]
@@ -85,7 +85,7 @@ resource "aci_rest_managed" "geoSite" {
   class_name = "geoSite"
   content = {
     name  = var.name
-    descr = var.description != null ? var.description : ""
+    descr = var.description
   }
 }
 

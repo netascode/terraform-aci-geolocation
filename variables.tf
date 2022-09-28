@@ -23,27 +23,27 @@ variable "buildings" {
   description = "List of buildings. Allowed values `node_id`: 1-4000. Allowed values `pod_id`: 1-255. Default value `pod_id`: 1."
   type = list(object({
     name        = string
-    description = optional(string)
+    description = optional(string, "")
     floors = optional(list(object({
       name        = string
-      description = optional(string)
+      description = optional(string, "")
       rooms = optional(list(object({
         name        = string
-        description = optional(string)
+        description = optional(string, "")
         rows = optional(list(object({
           name        = string
-          description = optional(string)
+          description = optional(string, "")
           racks = optional(list(object({
             name        = string
-            description = optional(string)
+            description = optional(string, "")
             nodes = optional(list(object({
               node_id = number
-              pod_id  = optional(number)
-            })))
-          })))
-        })))
-      })))
-    })))
+              pod_id  = optional(number, 1)
+            })), [])
+          })), [])
+        })), [])
+      })), [])
+    })), [])
   }))
   default = []
 
